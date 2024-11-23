@@ -1,0 +1,1 @@
+A beadandó feladat egy szerver oldali web-alkalmazás készítése NodeJS nyelven Linux szerveren.
