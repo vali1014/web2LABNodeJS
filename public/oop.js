@@ -23,6 +23,10 @@ router.get('/', (req, res) => {
       <main>
         <h1>OOP oldal</h1>
       </main>
+      <footer>
+        <p>Készítették: Nevek</p>
+        <p>Elérhetőségek: emailcímek</p>
+      </footer>
     </body>
     </html>
   `);

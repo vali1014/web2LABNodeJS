@@ -6,24 +6,55 @@ body {
   justify-content: flex-start;
   height: 100vh;
   margin: 0;
+  background: url('/images/hatter.jpg') no-repeat center center fixed;
+  background-size: cover;
+  background-blend-mode: overlay;
 }
-nav {
-  background-color: #333;
+nav, footer {
+  background-color: rgba(51, 51, 51, 0.8);
   color: white;
   padding: 1em;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   width: 100%;
   position: fixed;
-  top: 0;
   left: 0;
+}
+nav {
+  top: 0;
+  display: flex;
+  justify-content: center; /* Középre igazítja a menü elemeit */
 }
 nav a {
   color: white;
   margin: 0 1em;
   text-decoration: none;
 }
+footer {
+  bottom: 0;
+}
+footer p {
+  color: white;
+  margin: 0 1em;
+}
 main {
   margin-top: 4em; /* Adjust this value if needed */
+  margin-bottom: 4em; /* Adjust this value if needed */
   text-align: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 1em;
+  border-radius: 8px;
+  position: relative;
+}
+.mozi1 {
+  width: 150px; /* Adjust size as needed */
+  margin-top: 1em; /* Add margin to separate from text */
+}
+.mozi2-left, .mozi2-right {
+  width: 50px; /* Adjust size as needed */
+  height: auto;
+  margin: 0 2em; /* Increase margin */
+}
+.mozi2-left {
+  order: -1;
 }
