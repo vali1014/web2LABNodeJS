@@ -1,14 +1,16 @@
 const express = require('express');
 const path = require('path');
+const bodyParser = require('body-parser');
+const adatbazisRouter = require('./public/adatbazis'); // Importáljuk az adatb függvényt
 const app = express();
 const port = 8012;
 
-const adatbazisRouter = require('./public/adatbazis');
 const kapcsolatRouter = require('./public/kapcsolat');
 const uzenetekRouter = require('./public/uzenetek');
 const crudRouter = require('./public/crud');
 const oopRouter = require('./public/oop');
 
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/style.css', express.static(path.join(__dirname, 'style.css')));
 app.use('/images', express.static(path.join(__dirname, 'images'))); // Hozzáadva
