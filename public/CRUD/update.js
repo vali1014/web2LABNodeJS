@@ -2,19 +2,7 @@ const express = require('express');
 const mysql = require('mysql');
 const router = express.Router();
 
-// CRUD műveletek importálása
-router.use('/create', require('./CRUD/create'));
-router.use('/read', require('./CRUD/read'));
-router.use('/update', require('./CRUD/update'));
-router.use('/delete', require('./CRUD/delete'));
-
-// Alapértelmezett útvonal átirányítása a read műveletre
-router.get('/', (req, res) => {
-  res.redirect('/crud/read');
-});
-
-// CRUD oldal megjelenítése
-router.get('/crud', (req, res) => {
+router.get('/:id', (req, res) => {
   var con = mysql.createConnection({
     host: 'localhost',
     user: 'studb012',
@@ -29,43 +17,27 @@ router.get('/crud', (req, res) => {
       return;
     }
 
-    const query = "SELECT id, nev, uzenet, DATE_FORMAT(idopont, '%Y. %m. %d. (%H:%i)') AS formatted_idopont FROM uzenetek ORDER BY idopont DESC";
-    con.query(query, (err, results) => {
+    const { id } = req.params;
+    const query = 'SELECT * FROM uzenetek WHERE id = ?';
+    con.query(query, [id], (err, results) => {
       if (err) {
         console.error('Query execution failed:', err.stack);
         res.status(500).send('Query execution failed');
         return;
       }
 
-      let messagesHtml = results.map(message => `
-        <tr>
-          <td>${message.nev}</td>
-          <td>${message.uzenet}</td>
-          <td>${message.formatted_idopont}</td>
-          <td>
-            <a href="/crud/update/${message.id}">Edit</a>
-            <span style="margin: 0 10px;"></span>
-            <a href="/crud/delete/${message.id}">Delete</a>
-          </td>
-        </tr>
-      `).join('');
-
+      const message = results[0];
       res.send(`
         <!DOCTYPE HTML>
         <html lang="hu">
         <head>
-          <title>CRUD</title>
+          <title>CRUD Edit</title>
           <meta charset="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
           <link rel="stylesheet" href="/assets/css/main.css" />
           <noscript><link rel="stylesheet" href="/assets/css/noscript.css" /></noscript>
-          <style>
-            th, td {
-              text-align: center;
-            }
-          </style>
         </head>
-        <body class="is-preload" style="background: url('/images/hatter.jpg') no-repeat center center fixed; background-size: cover; color: #fff; position: relative;">
+        <body class="is-preload" style="background: url('/images/hatter.jpg') no-repeat center center fixed; background-size: cover; color: #000; position: relative;">
 
           <!-- Wrapper -->
           <div id="wrapper" class="fade-in">
@@ -91,22 +63,17 @@ router.get('/crud', (req, res) => {
             <div id="main">
               <article class="post featured">
                 <header class="major">
-                  <h2><a href="#">CRUD oldal</a></h2>
+                  <h2><a href="#">Üzenet szerkesztése</a></h2>
                 </header>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Név</th>
-                      <th>Üzenet</th>
-                      <th>Időpont</th>
-                      <th>Műveletek</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    ${messagesHtml}
-                  </tbody>
-                </table>
-                <a href="/crud/create">Create</a>
+                <form method="POST" action="/crud/update/${id}">
+                  <label for="nev">Név:</label>
+                  <input type="text" id="nev" name="nev" value="${message.nev}" required>
+                  <label for="uzenet">Üzenet:</label>
+                  <textarea id="uzenet" name="uzenet" required>${message.uzenet}</textarea>
+                  <label for="idopont">Időpont:</label>
+                  <input type="datetime-local" id="idopont" name="idopont" value="${message.idopont}" required>
+                  <button type="submit">Mentés</button>
+                </form>
               </article>
             </div>
 
@@ -138,6 +105,35 @@ router.get('/crud', (req, res) => {
         </body>
         </html>
       `);
+    });
+  });
+});
+
+router.post('/:id', (req, res) => {
+  var con = mysql.createConnection({
+    host: 'localhost',
+    user: 'studb012',
+    password: 'PaSsWoRd13',
+    database: 'db012'
+  });
+
+  con.connect(function(err) {
+    if (err) {
+      console.error('Database connection failed:', err.stack);
+      res.status(500).send('Database connection failed');
+      return;
+    }
+
+    const { id } = req.params;
+    const { nev, uzenet, idopont } = req.body;
+    const query = 'UPDATE uzenetek SET nev = ?, uzenet = ?, idopont = ? WHERE id = ?';
+    con.query(query, [nev, uzenet, idopont, id], (err, results) => {
+      if (err) {
+        console.error('Query execution failed:', err.stack);
+        res.status(500).send('Query execution failed');
+        return;
+      }
+      res.redirect('/crud');
     });
   });
 });

@@ -1,8 +1,8 @@
 ## WEB-programozás II. LA02 beadandó ##
 A beadandó feladat egy szerver oldali web-alkalmazás készítése NodeJS nyelven Linux szerveren.
 
-## Készítették: ##
-NEVEK
+## Készítette: ##
+Dunai Valéria
 
 ## Témánk: ##
 Moziműsor

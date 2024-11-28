@@ -2,19 +2,7 @@ const express = require('express');
 const mysql = require('mysql');
 const router = express.Router();
 
-// CRUD műveletek importálása
-router.use('/create', require('./CRUD/create'));
-router.use('/read', require('./CRUD/read'));
-router.use('/update', require('./CRUD/update'));
-router.use('/delete', require('./CRUD/delete'));
-
-// Alapértelmezett útvonal átirányítása a read műveletre
 router.get('/', (req, res) => {
-  res.redirect('/crud/read');
-});
-
-// CRUD oldal megjelenítése
-router.get('/crud', (req, res) => {
   var con = mysql.createConnection({
     host: 'localhost',
     user: 'studb012',
@@ -39,12 +27,12 @@ router.get('/crud', (req, res) => {
 
       let messagesHtml = results.map(message => `
         <tr>
+          <td>${message.id}</td>
           <td>${message.nev}</td>
           <td>${message.uzenet}</td>
           <td>${message.formatted_idopont}</td>
           <td>
-            <a href="/crud/update/${message.id}">Edit</a>
-            <span style="margin: 0 10px;"></span>
+            <a href="/crud/edit/${message.id}">Edit</a>
             <a href="/crud/delete/${message.id}">Delete</a>
           </td>
         </tr>
@@ -65,7 +53,7 @@ router.get('/crud', (req, res) => {
             }
           </style>
         </head>
-        <body class="is-preload" style="background: url('/images/hatter.jpg') no-repeat center center fixed; background-size: cover; color: #fff; position: relative;">
+        <body class="is-preload" style="background: url('/images/hatter.jpg') no-repeat center center fixed; background-size: cover; color: #000; position: relative;">
 
           <!-- Wrapper -->
           <div id="wrapper" class="fade-in">
@@ -96,6 +84,7 @@ router.get('/crud', (req, res) => {
                 <table>
                   <thead>
                     <tr>
+                      <th>ID</th>
                       <th>Név</th>
                       <th>Üzenet</th>
                       <th>Időpont</th>

@@ -11,12 +11,13 @@ const crudRouter = require('./public/crud');
 const oopRouter = require('./public/oop');
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json()); // Hozzáadva a JSON kezeléshez
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 app.use('/style.css', express.static(path.join(__dirname, 'style.css')));
-app.use('/images', express.static(path.join(__dirname, 'images'))); // Hozzáadva
+app.use('/images', express.static(path.join(__dirname, 'images'))); 
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html')); // Módosítva a helyes útvonalra
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.use('/adatbazis', adatbazisRouter);

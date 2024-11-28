@@ -1,12 +1,14 @@
 const express = require('express');
+const mysql = require('mysql');
 const router = express.Router();
 
+// GET útvonal a form megjelenítéséhez
 router.get('/', (req, res) => {
   res.send(`
     <!DOCTYPE HTML>
     <html lang="hu">
     <head>
-      <title>OOP</title>
+      <title>Új üzenet létrehozása</title>
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
       <link rel="stylesheet" href="/assets/css/main.css" />
@@ -29,8 +31,8 @@ router.get('/', (req, res) => {
             <li><a href="/adatbazis">Adatbázis</a></li>
             <li><a href="/kapcsolat">Kapcsolat</a></li>
             <li><a href="/uzenetek">Üzenetek</a></li>
-            <li><a href="/crud">CRUD</a></li>
-            <li class="active"><a href="/oop">OOP</a></li>
+            <li class="active"><a href="/crud">CRUD</a></li>
+            <li><a href="/oop">OOP</a></li>
           </ul>
         </nav>
 
@@ -38,8 +40,15 @@ router.get('/', (req, res) => {
         <div id="main">
           <article class="post featured">
             <header class="major">
-              <h2><a href="#">OOP oldal</a></h2>
+              <h2><a href="#">Új üzenet létrehozása</a></h2>
             </header>
+            <form method="POST" action="/crud/create">
+              <label for="nev">Név:</label>
+              <input type="text" id="nev" name="nev" required>
+              <label for="uzenet">Üzenet:</label>
+              <textarea id="uzenet" name="uzenet" required></textarea>
+              <button type="submit">Létrehozás</button>
+            </form>
           </article>
         </div>
 
@@ -71,6 +80,35 @@ router.get('/', (req, res) => {
     </body>
     </html>
   `);
+});
+
+// POST útvonal az új rekord hozzáadásához
+router.post('/', (req, res) => {
+  var con = mysql.createConnection({
+    host: 'localhost',
+    user: 'studb012',
+    password: 'PaSsWoRd13',
+    database: 'db012'
+  });
+
+  con.connect(function(err) {
+    if (err) {
+      console.error('Database connection failed:', err.stack);
+      res.status(500).send('Database connection failed');
+      return;
+    }
+
+    const { nev, uzenet } = req.body;
+    const query = 'INSERT INTO uzenetek (nev, uzenet, idopont) VALUES (?, ?, NOW())';
+    con.query(query, [nev, uzenet], (err, results) => {
+      if (err) {
+        console.error('Query execution failed:', err.stack);
+        res.status(500).send('Query execution failed');
+        return;
+      }
+      res.redirect('/crud');
+    });
+  });
 });
 
 module.exports = router;
