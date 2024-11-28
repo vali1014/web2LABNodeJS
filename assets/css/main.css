@@ -105,7 +105,7 @@ input, select, textarea {
 	body {
 		background: url('images/hatter.jpg') no-repeat center center fixed;
 		background-size: cover;
-		color: #fff;
+		color: #000;
 		position: relative;
 	}
 
@@ -194,7 +194,7 @@ input, select, textarea {
 	}
 
 	p {
-		text-align: justify;
+		text-align: center;
 		margin: 0 0 2rem 0;
 	}
 
