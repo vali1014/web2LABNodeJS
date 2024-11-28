@@ -34,6 +34,7 @@ router.get('/', (req, res) => {
             table th {
               text-align: center;
               color: black;
+              font-size: 1.5em; /* Betűméret növelése */
             }
             table td {
               color: black;
@@ -132,8 +133,12 @@ router.post('/filmek', (req, res) => {
     con.query(query, [moziNev], function (err, result, fields) {
       if (err) throw err;
       var filmek = "";
+      if (result.length === 0) {
+        filmek = `<tr><td>Jelenleg ebben a moziban nem játszanak filmeket. 😔</td></tr>`;
+      } else {
       for (var i = 0; i < result.length; i++) {
         filmek += `<tr><td>${result[i].filmcim}</td></tr>`;
+        }
       }
       res.send(`
         <!DOCTYPE HTML>
@@ -151,6 +156,7 @@ router.post('/filmek', (req, res) => {
             table th {
               text-align: center;
               color: black;
+              font-size: 1.5em; /* Betűméret növelése */
             }
             table td {
               color: black;
@@ -186,7 +192,7 @@ router.post('/filmek', (req, res) => {
                   <h2><a href="#">A jelenleg ${moziNev} helyen játszott filmek listája:</a></h2>
                 </header>
                 <table>
-                  <tr><th>Film cím</th></tr>
+                  <tr><th>Filmek címei:</th></tr>
                   ${filmek}
                 </table>
                 <form action="/adatbazis" method="GET">
@@ -228,4 +234,4 @@ router.post('/filmek', (req, res) => {
   });
 });
 
-module.exports = router
+module.exports = router;
