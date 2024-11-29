@@ -27,12 +27,11 @@ router.get('/', (req, res) => {
 
       let messagesHtml = results.map(message => `
         <tr>
-          <td>${message.id}</td>
           <td>${message.nev}</td>
           <td>${message.uzenet}</td>
           <td>${message.formatted_idopont}</td>
           <td>
-            <a href="/crud/edit/${message.id}">Edit</a>
+            <a href="/crud/update/${message.id}">Edit</a>
             <a href="/crud/delete/${message.id}">Delete</a>
           </td>
         </tr>
@@ -84,7 +83,6 @@ router.get('/', (req, res) => {
                 <table>
                   <thead>
                     <tr>
-                      <th>ID</th>
                       <th>Név</th>
                       <th>Üzenet</th>
                       <th>Időpont</th>

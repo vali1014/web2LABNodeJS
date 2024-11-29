@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
       <link rel="stylesheet" href="/assets/css/main.css" />
       <noscript><link rel="stylesheet" href="/assets/css/noscript.css" /></noscript>
     </head>
-    <body class="is-preload" style="background: url('/images/hatter.jpg') no-repeat center center fixed; background-size: cover; color: #fff; position: relative;">
+    <body class="is-preload" style="background: url('/images/hatter.jpg') no-repeat center center fixed; background-size: cover; color: #000; position: relative;">
 
       <!-- Wrapper -->
       <div id="wrapper" class="fade-in">

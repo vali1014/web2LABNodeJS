@@ -70,8 +70,6 @@ router.get('/:id', (req, res) => {
                   <input type="text" id="nev" name="nev" value="${message.nev}" required>
                   <label for="uzenet">Üzenet:</label>
                   <textarea id="uzenet" name="uzenet" required>${message.uzenet}</textarea>
-                  <label for="idopont">Időpont:</label>
-                  <input type="datetime-local" id="idopont" name="idopont" value="${message.idopont}" required>
                   <button type="submit">Mentés</button>
                 </form>
               </article>
