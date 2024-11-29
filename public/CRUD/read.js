@@ -31,7 +31,7 @@ router.get('/', (req, res) => {
           <td>${message.uzenet}</td>
           <td>${message.formatted_idopont}</td>
           <td>
-            <a href="/crud/update/${message.id}">Edit</a>
+            <a href="/crud/edit/${message.id}" style="margin-right: 10px;">Edit</a>
             <a href="/crud/delete/${message.id}">Delete</a>
           </td>
         </tr>
